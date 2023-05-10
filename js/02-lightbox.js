@@ -11,24 +11,19 @@ console.log(galleryItems);
 
 const ulElem = document.querySelector(".gallery");
 
-galleryItems.forEach((galleryItem) => {
-  const liElem = document.createElement("li");
-  liElem.classList.add("gallery__item");
+const galleryHtml = galleryItems
+  .map(
+    (galleryItem) => `
+  <li class="gallery__item">
+    <a class="gallery__link" href="${galleryItem.original}">
+      <img class="gallery__image" src="${galleryItem.preview}" alt="${galleryItem.description}">
+    </a>
+  </li>
+`
+  )
+  .join("");
 
-  const aElem = document.createElement("a");
-  aElem.classList.add("gallery__link");
-  aElem.setAttribute("href", galleryItem.original);
-
-  const imgElem = document.createElement("img");
-  imgElem.classList.add("gallery__image");
-  imgElem.setAttribute("src", galleryItem.preview);
-  //   imgElem.setAttribute("data-source", galleryItem.original);
-  imgElem.setAttribute("alt", galleryItem.description);
-
-  liElem.appendChild(aElem);
-  aElem.appendChild(imgElem);
-  ulElem.appendChild(liElem);
-});
+ulElem.insertAdjacentHTML("beforeend", galleryHtml);
 
 const gallery = new SimpleLightbox(".gallery__link", {
   animationSpeed: 250,
